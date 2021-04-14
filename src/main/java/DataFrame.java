@@ -58,6 +58,56 @@ public class DataFrame {
         }
     }
 
+    public DataFrame selectRaws(int from, int to) {
+        DataFrame res = new DataFrame();
+        try {
+            for (String key : this.data.keySet()) {
+                CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(from, to + 1)), key);
+                res.addColumn(tmp);
+            }
+        } catch (Exception e) {
+            System.err.print("Exception caught on selectRaws(" + from + ", " + to +") : ");
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public DataFrame selectRawsTo(int to) {
+        DataFrame res = new DataFrame();
+        try {
+            for(String key : this.data.keySet()) {
+                CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(0, to + 1)), key);
+                res.addColumn(tmp);
+            }
+        } catch (Exception e) {
+            System.err.print("Exception caught on selectRawsTo(" + to +") : ");
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public DataFrame selectRawsFrom(int from) {
+        DataFrame res = new DataFrame();
+        try {
+            for(String key : this.data.keySet()) {
+                CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(from, this.data.get(key).size())), key);
+                res.addColumn(tmp);
+            }
+        } catch (Exception e) {
+            System.err.print("Exception caught on selectRawsFrom(" + from +") : ");
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    public DataFrame selectColumns(String ... labels) {
+        return null;
+    }
+
+    private void addColumn(CoupleLabelData couple){
+        this.data.put(couple.getLabel(), couple.getData());
+    }
+
     @Override
     public String toString() {
         return "";
