@@ -72,4 +72,13 @@ public class TestSelection {
         Assert.assertEquals(age.get(0), "25");
         Assert.assertEquals(age.get(1), "23");
     }
+
+    @Test
+    public void testSelectColumns() {
+        DataFrame dfcsv = new DataFrame("src/main/resources/testselection.csv");
+
+        // Test select raws
+        DataFrame cropped = dfcsv.selectColumns("prenom", "age");
+    }
+
 }

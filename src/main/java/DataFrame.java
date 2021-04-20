@@ -101,7 +101,17 @@ public class DataFrame {
     }
 
     public DataFrame selectColumns(String ... labels) {
-        return null;
+        DataFrame res = new DataFrame();
+        try {
+            for(String label : labels) {
+                CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(label)), label);
+                res.addColumn(tmp);
+            }
+        } catch (Exception e) {
+            System.err.print("Exception caught on selectColumns(" + labels +") : ");
+            e.printStackTrace();
+        }
+        return res;
     }
 
     private void addColumn(CoupleLabelData couple){
