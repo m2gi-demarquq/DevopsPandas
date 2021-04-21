@@ -3,9 +3,9 @@ package test.java;
 import org.junit.*;
 import main.java.*;
 
-import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /***
  * test des 2 constructeurs de la classe DataFrame
@@ -16,7 +16,7 @@ public class TestConstructor {
     public void test(){
         DataFrame dfcsv = new DataFrame("src/main/resources/testconst.csv");
 
-        HashMap<String, ArrayList> hash = dfcsv.getData();
+        LinkedHashMap<String, ArrayList> hash = dfcsv.getData();
 
         Assert.assertTrue(hash.containsKey("nom"));
         Assert.assertTrue(hash.containsKey("prenom"));
@@ -32,10 +32,22 @@ public class TestConstructor {
         Assert.assertEquals(prenom.get(0), "jean");
         Assert.assertEquals(prenom.get(1), "merou");
 
-        ArrayList<String> age = hash.get("age");
+        ArrayList<Integer> age = hash.get("age");
 
-        Assert.assertEquals(age.get(0), "45");
-        Assert.assertEquals(age.get(1), "12");
+        int current = age.get(0);
+        int current2 = age.get(1);
+
+        Assert.assertEquals(current, 45);
+        Assert.assertEquals(current2, 12);
+
+        ArrayList<Double> money = hash.get("moneyyss");
+
+        double currentm = money.get(0);
+        double currentm2 = money.get(1);
+
+
+        Assert.assertEquals(currentm, 0.002, 0);
+        Assert.assertEquals(currentm2, 10.52, 0);
 
 
         CoupleLabelData cd1 = new CoupleLabelData(nom, "nom");
