@@ -162,11 +162,31 @@ public class DataFrame {
     }
 
     /***
-     * print all the dataframe
+     *
+     * @return the dataframe
      */
     public String Print_all() {
 
         return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
 
+    }
+
+    /***
+     *
+     * @param lastLine the last line printed
+     * @return the dataframe
+     */
+    public String Print_until(int lastLine){
+        if(lastLine > this.getbiggestArraysize()){
+            return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
+        }
+        return printPart(0, lastLine, 0, data.keySet().size());
+    }
+
+    public String Print_from(int firstline){
+        if(firstline < 0){
+            return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
+        }
+        return printPart(firstline, this.getbiggestArraysize(), 0, data.keySet().size());
     }
 }
