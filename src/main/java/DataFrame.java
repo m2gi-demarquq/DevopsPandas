@@ -58,58 +58,42 @@ public class DataFrame {
         }
     }
 
-    public DataFrame selectRaws(int from, int to) throws InvalidRawIndexException {
+    public DataFrame selectRaws(int from, int to) {
         DataFrame res = new DataFrame();
 
         for (String key : this.data.keySet()) {
-            if(from >= 0 && from < to && to < this.data.get(key).size()) {
-                CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(from, to + 1)), key);
-                res.addColumn(tmp);
-            } else {
-                throw new InvalidRawIndexException("Exception caught on selectRaws(" + from + ", " + to + ") :");
-            }
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(from, to + 1)), key);
+            res.addColumn(tmp);
         }
         return res;
     }
 
-    public DataFrame selectRawsTo(int to) throws InvalidRawIndexException {
+    public DataFrame selectRawsTo(int to) {
         DataFrame res = new DataFrame();
 
         for(String key : this.data.keySet()) {
-            if(to > 0 && to < this.data.get(key).size()) {
-                CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(0, to + 1)), key);
-                res.addColumn(tmp);
-            } else {
-                throw new InvalidRawIndexException("Exception caught on selectRawsTo(" + to +") : ");
-            }
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(0, to + 1)), key);
+            res.addColumn(tmp);
         }
         return res;
     }
 
-    public DataFrame selectRawsFrom(int from) throws InvalidRawIndexException {
+    public DataFrame selectRawsFrom(int from) {
         DataFrame res = new DataFrame();
 
         for(String key : this.data.keySet()) {
-            if(from >= 0 && from < this.data.get(key).size() - 1) {
-                CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(from, this.data.get(key).size())), key);
-                res.addColumn(tmp);
-            } else {
-                throw new InvalidRawIndexException("Exception caught on selectRawsFrom(" + from +") : ");
-            }
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(from, this.data.get(key).size())), key);
+            res.addColumn(tmp);
         }
         return res;
     }
 
-    public DataFrame selectColumns(String ... labels) throws InvalidColumnLabelException {
+    public DataFrame selectColumns(String ... labels) {
         DataFrame res = new DataFrame();
 
         for(String label : labels) {
-            if(this.data.containsKey(label)) {
-                CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(label)), label);
-                res.addColumn(tmp);
-            } else {
-                throw new InvalidColumnLabelException("Exception caught on selectColumns(" + labels +") : ");
-            }
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(label)), label);
+            res.addColumn(tmp);
         }
         return res;
     }

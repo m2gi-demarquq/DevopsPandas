@@ -13,12 +13,7 @@ public class TestSelection {
         DataFrame dfcsv = new DataFrame("src/main/resources/testselection.csv");
 
         // Test select raws from index 1 to index 2
-        DataFrame cropped = null;
-        try {
-            cropped = dfcsv.selectRaws(1,2);
-        } catch (InvalidRawIndexException e) {
-            e.printStackTrace();
-        }
+        DataFrame cropped = dfcsv.selectRaws(1,2);
 
         HashMap<String, ArrayList> hash = cropped.getData();
 
@@ -38,11 +33,7 @@ public class TestSelection {
         Assert.assertEquals(age.get(1), "25");
 
         // Test select raws from beginning to index 1
-        try {
-            cropped = dfcsv.selectRawsTo(1);
-        } catch (InvalidRawIndexException e) {
-            e.printStackTrace();
-        }
+        cropped = dfcsv.selectRawsTo(1);
 
         hash = cropped.getData();
 
@@ -62,11 +53,7 @@ public class TestSelection {
         Assert.assertEquals(age.get(1), "12");
 
         // Test select raws from index 2 to the end
-        try {
-            cropped = dfcsv.selectRawsFrom(2);
-        } catch (InvalidRawIndexException e) {
-            e.printStackTrace();
-        }
+        cropped = dfcsv.selectRawsFrom(2);
 
         hash = cropped.getData();
 
@@ -86,52 +73,36 @@ public class TestSelection {
         Assert.assertEquals(age.get(1), "23");
     }
 
-    @Test(expected = InvalidRawIndexException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testSelectRawsTooLowIndexException() {
         DataFrame dfcsv = new DataFrame("src/main/resources/testselection.csv");
 
-        // Test select raws from index 1 to index 2
-        try {
-            DataFrame cropped = dfcsv.selectRaws(-1,2);
-        } catch (InvalidRawIndexException e) {
-            e.printStackTrace();
-        }
+        // Test select raws from index -1 to index 2
+        DataFrame cropped = dfcsv.selectRaws(-1,2);
     }
 
-    @Test(expected = InvalidRawIndexException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testSelectRawsTooHighIndexException() {
         DataFrame dfcsv = new DataFrame("src/main/resources/testselection.csv");
 
-        // Test select raws from index 1 to index 2
-        try {
-            DataFrame cropped = dfcsv.selectRaws(1,10);
-        } catch (InvalidRawIndexException e) {
-            e.printStackTrace();
-        }
+        // Test select raws from index 1 to index 10
+        DataFrame cropped = dfcsv.selectRaws(1,10);
     }
 
-    @Test(expected = InvalidRawIndexException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testSelectRawsToException() {
         DataFrame dfcsv = new DataFrame("src/main/resources/testselection.csv");
 
-        // Test select raws from index 1 to index 2
-        try {
-            DataFrame cropped = dfcsv.selectRawsTo(0);
-        } catch (InvalidRawIndexException e) {
-            e.printStackTrace();
-        }
+        // Test select raws from the beginning to index -1
+        DataFrame cropped = dfcsv.selectRawsTo(-2);
     }
 
-    @Test(expected = InvalidRawIndexException.class)
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testSelectRawsFromException() {
         DataFrame dfcsv = new DataFrame("src/main/resources/testselection.csv");
 
-        // Test select raws from index 1 to index 2
-        try {
-            DataFrame cropped = dfcsv.selectRawsTo(10);
-        } catch (InvalidRawIndexException e) {
-            e.printStackTrace();
-        }
+        // Test select raws from index 10 to index the end
+        DataFrame cropped = dfcsv.selectRawsTo(10);
     }
 
     @Test
@@ -142,7 +113,7 @@ public class TestSelection {
         DataFrame cropped = null;
         try {
             cropped = dfcsv.selectColumns("prenom", "age");
-        } catch (InvalidColumnLabelException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -152,26 +123,22 @@ public class TestSelection {
 
         Assert.assertEquals(prenom.get(0), "jean");
         Assert.assertEquals(prenom.get(1), "merou");
-        Assert.assertEquals(prenom.get(0), "quentin");
-        Assert.assertEquals(prenom.get(1), "ugo");
+        Assert.assertEquals(prenom.get(2), "quentin");
+        Assert.assertEquals(prenom.get(3), "ugo");
 
         ArrayList<String> age = hash.get("age");
 
         Assert.assertEquals(age.get(0), "45");
         Assert.assertEquals(age.get(1), "12");
-        Assert.assertEquals(age.get(0), "25");
-        Assert.assertEquals(age.get(1), "23");
+        Assert.assertEquals(age.get(2), "25");
+        Assert.assertEquals(age.get(3), "23");
     }
 
-    @Test(expected = InvalidColumnLabelException.class)
+    @Test(expected = NullPointerException.class)
     public void testSelectColumnsException() {
         DataFrame dfcsv = new DataFrame("src/main/resources/testselection.csv");
 
         // Test select raws
-        try {
-            DataFrame cropped = dfcsv.selectColumns("prenom", "surnom");
-        } catch (InvalidColumnLabelException e) {
-            e.printStackTrace();
-        }
+        DataFrame cropped = dfcsv.selectColumns("prenom", "surnom");
     }
 }
