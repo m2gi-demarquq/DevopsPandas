@@ -17,4 +17,4 @@ jobs:
       with:
         java-version: '13'
     - name: Test with Maven
-      run: mvn test
+      run: mvn verify
