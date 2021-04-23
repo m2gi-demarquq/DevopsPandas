@@ -29,8 +29,8 @@ public class TestSelection {
 
         ArrayList<String> age = hash.get("age");
 
-        Assert.assertEquals(age.get(0), "12");
-        Assert.assertEquals(age.get(1), "25");
+        Assert.assertEquals(age.get(0), 12);
+        Assert.assertEquals(age.get(1), 25);
 
         // Test select row at 1
         cropped = dfcsv.selectRow(1);
@@ -47,7 +47,7 @@ public class TestSelection {
 
         age = hash.get("age");
 
-        Assert.assertEquals(age.get(0), "12");
+        Assert.assertEquals(age.get(0), 12);
 
         // Test select rows from beginning to index 1
         cropped = dfcsv.selectRowsTo(1);
@@ -66,8 +66,8 @@ public class TestSelection {
 
         age = hash.get("age");
 
-        Assert.assertEquals(age.get(0), "45");
-        Assert.assertEquals(age.get(1), "12");
+        Assert.assertEquals(age.get(0), 45);
+        Assert.assertEquals(age.get(1), 12);
 
         // Test select rows from index 2 to the end
         cropped = dfcsv.selectRowsFrom(2);
@@ -86,8 +86,8 @@ public class TestSelection {
 
         age = hash.get("age");
 
-        Assert.assertEquals(age.get(0), "25");
-        Assert.assertEquals(age.get(1), "23");
+        Assert.assertEquals(age.get(0), 25);
+        Assert.assertEquals(age.get(1), 23);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -145,10 +145,10 @@ public class TestSelection {
 
         ArrayList<String> age = hash.get("age");
 
-        Assert.assertEquals(age.get(0), "45");
-        Assert.assertEquals(age.get(1), "12");
-        Assert.assertEquals(age.get(2), "25");
-        Assert.assertEquals(age.get(3), "23");
+        Assert.assertEquals(age.get(0), 45);
+        Assert.assertEquals(age.get(1), 12);
+        Assert.assertEquals(age.get(2), 25);
+        Assert.assertEquals(age.get(3), 23);
     }
 
     @Test(expected = NullPointerException.class)
