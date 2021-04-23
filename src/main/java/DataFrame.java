@@ -3,8 +3,6 @@ package main.java;
 import java.io.FileReader;
 import java.util.*;
 import java.util.Map.Entry;
-
-
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
@@ -117,24 +115,139 @@ public class DataFrame {
         }
     }
 
-    public int getbiggestArraysize(){
+    /***
+     * Select the row with the index at
+     * @param at
+     * @return DataFrame
+     */
+    public DataFrame selectRow(int at) {
+        DataFrame res = new DataFrame();
+
+        for (String key : this.data.keySet()) {
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(at, at + 1)), key);
+            res.addColumn(tmp);
+        }
+        return res;
+    }
+
+    /***
+     * Select the rows in between the from-th and to-th rows (included)
+     * @param from
+     * @param to
+     * @return DataFrame
+     */
+    public DataFrame selectRows(int from, int to) {
+        DataFrame res = new DataFrame();
+
+        for (String key : this.data.keySet()) {
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(from, to + 1)), key);
+            res.addColumn(tmp);
+        }
+        return res;
+    }
+
+    /***
+     * Select the rows in between the beginning and the to-th row (included)
+     * @param to
+     * @return DataFrame
+     */
+    public DataFrame selectRowsTo(int to) {
+        DataFrame res = new DataFrame();
+
+        for(String key : this.data.keySet()) {
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(0, to + 1)), key);
+            res.addColumn(tmp);
+        }
+        return res;
+    }
+
+    /***
+     * Select the rows in between the from-th row and the end (included)
+     * @param from
+     * @return DataFrame
+     */
+    public DataFrame selectRowsFrom(int from) {
+        DataFrame res = new DataFrame();
+
+        for(String key : this.data.keySet()) {
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(from, this.data.get(key).size())), key);
+            res.addColumn(tmp);
+        }
+        return res;
+    }
+
+    /***
+     * Select the columns with the label given
+     * @param labels
+     * @return DataFrame
+     */
+    public DataFrame selectColumns(String ... labels) {
+        DataFrame res = new DataFrame();
+
+        for(String label : labels) {
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(label)), label);
+            res.addColumn(tmp);
+        }
+        return res;
+    }
+
+    private HashMap goDownIn(String label) {
+        return (HashMap) this.data.get(label).get(0);
+    }
+
+    public DataFrame advancedSelect(String ... labels) {
+        DataFrame res = new DataFrame();
+
+        HashMap tmp = this.data;
+        int depth = labels.length;
+        Object[] allLabels = Arrays.stream(labels).toArray();
+        int i = 0;
+
+        while(i < depth - 1) {
+            tmp = (HashMap) this.data.get(allLabels[i]).get(0);
+            i++;
+        }
+
+        res.addColumn(new CoupleLabelData(new ArrayList((ArrayList) tmp.get(allLabels[i])), (String) allLabels[i]));
+
+        return res;
+    }
+
+    public DataFrame advancedSelect(int row, String ... labels) {
+        return advancedSelect(labels).selectRow(row);
+    }
+
+    public DataFrame advancedSelect(int from, int to, String ... labels) {
+        return advancedSelect(labels).selectRows(from, to);
+    }
+
+    private void addColumn(CoupleLabelData couple) {
+        this.data.put(couple.getLabel(), couple.getData());
+    }
+
+    @Override
+    public String toString() {
+        return "";
+    }
+  
+    public int getbiggestArraysize() {
         int max = 0;
         for (Map.Entry<String, ArrayList> entry: data.entrySet()) {
             int curr = entry.getValue().size();
-            if(curr > max){
+            if(curr > max) {
                 max = curr;
             }
         }
         return max;
     }
 
-    public String printPart(int start, int finish, int startcol, int finishcol){
+    public String printPart(int start, int finish, int startcol, int finishcol) {
         String ret = "";
         int max = this.getbiggestArraysize();
         String[] keys = data.keySet().toArray(String[]::new);
 
-        if (start == 0){
-            for(int col = startcol; col<finishcol; col++){
+        if (start == 0) {
+            for(int col = startcol; col<finishcol; col++) {
                 ret += keys[col] + ",";
 
             }
@@ -144,20 +257,18 @@ public class DataFrame {
             start ++;
         }
 
-        for(int lig = start - 1; lig < finish; lig++){
-            for(int col = startcol; col < finishcol; col++){
+        for(int lig = start - 1; lig < finish; lig++) {
+            for(int col = startcol; col < finishcol; col++) {
                 Object add = data.get(keys[col]).get(lig);
-                if(add == null){
+                if(add == null) {
                     ret += "";
-                }else{
+                } else {
                     ret += add + ",";
                 }
-
             }
             ret = ret.substring(0, ret.length() - 1);
             ret += "\n";
         }
-
         return ret;
     }
 
@@ -166,9 +277,7 @@ public class DataFrame {
      * @return the dataframe
      */
     public String Print_all() {
-
         return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
-
     }
 
     /***
@@ -176,15 +285,15 @@ public class DataFrame {
      * @param lastLine the last line printed
      * @return the dataframe
      */
-    public String Print_until(int lastLine){
-        if(lastLine > this.getbiggestArraysize()){
+    public String Print_until(int lastLine) {
+        if(lastLine > this.getbiggestArraysize()) {
             return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
         }
         return printPart(0, lastLine, 0, data.keySet().size());
     }
 
-    public String Print_from(int firstline){
-        if(firstline < 0){
+    public String Print_from(int firstline) {
+        if(firstline < 0) {
             return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
         }
         return printPart(firstline, this.getbiggestArraysize(), 0, data.keySet().size());

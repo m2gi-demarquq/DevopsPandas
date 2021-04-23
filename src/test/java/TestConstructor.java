@@ -81,9 +81,5 @@ public class TestConstructor {
 
         Assert.assertEquals(age2.get(0), 10);
         Assert.assertEquals(age2.get(1), 25);
-
-
-
-
     }
 }
