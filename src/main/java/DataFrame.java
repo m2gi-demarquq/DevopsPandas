@@ -2,6 +2,7 @@ package main.java;
 
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import com.opencsv.CSVReader;
@@ -58,7 +59,28 @@ public class DataFrame {
         }
     }
 
-    public DataFrame selectRaws(int from, int to) {
+    /***
+     * Select the row with the index at
+     * @param at
+     * @return DataFrame
+     */
+    public DataFrame selectRow(int at) {
+        DataFrame res = new DataFrame();
+
+        for (String key : this.data.keySet()) {
+            CoupleLabelData tmp = new CoupleLabelData(new ArrayList(this.data.get(key).subList(at, at + 1)), key);
+            res.addColumn(tmp);
+        }
+        return res;
+    }
+
+    /***
+     * Select the rows in between the from-th and to-th rows (included)
+     * @param from
+     * @param to
+     * @return DataFrame
+     */
+    public DataFrame selectRows(int from, int to) {
         DataFrame res = new DataFrame();
 
         for (String key : this.data.keySet()) {
@@ -68,7 +90,12 @@ public class DataFrame {
         return res;
     }
 
-    public DataFrame selectRawsTo(int to) {
+    /***
+     * Select the rows in between the beginning and the to-th row (included)
+     * @param to
+     * @return DataFrame
+     */
+    public DataFrame selectRowsTo(int to) {
         DataFrame res = new DataFrame();
 
         for(String key : this.data.keySet()) {
@@ -78,7 +105,12 @@ public class DataFrame {
         return res;
     }
 
-    public DataFrame selectRawsFrom(int from) {
+    /***
+     * Select the rows in between the from-th row and the end (included)
+     * @param from
+     * @return DataFrame
+     */
+    public DataFrame selectRowsFrom(int from) {
         DataFrame res = new DataFrame();
 
         for(String key : this.data.keySet()) {
@@ -88,6 +120,11 @@ public class DataFrame {
         return res;
     }
 
+    /***
+     * Select the columns with the label given
+     * @param labels
+     * @return DataFrame
+     */
     public DataFrame selectColumns(String ... labels) {
         DataFrame res = new DataFrame();
 
@@ -96,6 +133,36 @@ public class DataFrame {
             res.addColumn(tmp);
         }
         return res;
+    }
+
+    private HashMap goDownIn(String label) {
+        return (HashMap) this.data.get(label).get(0);
+    }
+
+    public DataFrame advancedSelect(String ... labels) {
+        DataFrame res = new DataFrame();
+
+        HashMap tmp = this.data;
+        int depth = labels.length;
+        Object[] allLabels = Arrays.stream(labels).toArray();
+        int i = 0;
+
+        while(i < depth - 1) {
+            tmp = (HashMap) this.data.get(allLabels[i]).get(0);
+            i++;
+        }
+
+        res.addColumn(new CoupleLabelData(new ArrayList((ArrayList) tmp.get(allLabels[i])), (String) allLabels[i]));
+
+        return res;
+    }
+
+    public DataFrame advancedSelect(int row, String ... labels) {
+        return advancedSelect(labels).selectRow(row);
+    }
+
+    public DataFrame advancedSelect(int from, int to, String ... labels) {
+        return advancedSelect(labels).selectRows(from, to);
     }
 
     private void addColumn(CoupleLabelData couple){
