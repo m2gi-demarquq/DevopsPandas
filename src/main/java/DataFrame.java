@@ -2,6 +2,7 @@ package main.java;
 
 import java.io.FileReader;
 import java.util.*;
+import java.util.Collections;
 import java.util.Map.Entry;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
@@ -298,4 +299,127 @@ public class DataFrame {
         }
         return printPart(firstline, this.getbiggestArraysize(), 0, data.keySet().size());
     }
+
+    /***
+     *
+     * @param label
+     * @return la mediane d'une colonne
+     */
+    public Double average(String label){
+        double ret = 0;
+        ArrayList array = data.get(label);
+        if(array == null){
+            System.err.println("label  : "+ label + " does not exist");
+            return null;
+        }
+        if(array.get(0) instanceof Double){
+            for(int i = 0; i < array.size(); i++) {
+                ret += (double) array.get(i);
+            }
+        }else if(array.get(0) instanceof Integer) {
+            for (int i = 0; i < array.size(); i++) {
+                ret += (double)(int) array.get(i);
+            }
+        }
+        else{
+            System.err.println("the column is a column of strings");
+            return null;
+        }
+
+        return ret/array.size();
+    }
+
+    /***
+     *
+     * @param label
+     * @return le max d'une colonne
+     */
+    public Double maxColumn (String label){
+        Double ret = - Double.MAX_VALUE;
+        ArrayList array = data.get(label);
+        if(array == null){
+            System.err.println("label  : "+ label + " does not exist");
+            return null;
+        }
+        if(array.get(0) instanceof Double){
+            for(int i = 0; i < array.size(); i++) {
+                if((double)array.get(i) > ret){
+                    ret = (Double)array.get(i);
+                }
+            }
+        }else if(array.get(0) instanceof Integer){
+            for(int i = 0; i < array.size(); i++) {
+                if((int)array.get(i) > ret){
+                    ret = (double)(int)array.get(i);
+                }
+            }
+        }
+        else{
+            System.err.println("the column is a column of strings");
+            return null;
+        }
+        return ret;
+    }
+
+    /***
+     *
+     * @param label
+     * @return le min d'une colonne
+     */
+    public Double minColumn (String label){
+        Double ret = Double.MAX_VALUE;
+        ArrayList array = data.get(label);
+        if(array == null){
+            System.err.println("label  : "+ label + " does not exist");
+            return null;
+        }
+        if(array.get(0) instanceof Double){
+            for(int i = 0; i < array.size(); i++) {
+                if((double)array.get(i) < ret){
+                    ret = (Double)array.get(i);
+                }
+            }
+        }else if(array.get(0) instanceof Integer){
+            for(int i = 0; i < array.size(); i++) {
+                if((int)array.get(i) < ret){
+                    ret = (double)(int)array.get(i);
+                }
+            }
+        }
+        else{
+            System.err.println("the column is a column of strings");
+            return null;
+        }
+        return ret;
+    }
+
+    /***
+     *
+     * @param label
+     * @return la mediane d'une colonne
+     */
+    public Double medianeColumn (String label){
+        Double ret = 0.0;
+
+        if(data.get(label) == null){
+            System.err.println("label  : "+ label + " does not exist");
+            return null;
+        }
+        ArrayList array = (ArrayList) data.get(label).clone();
+
+        if(array.get(0) instanceof Double){
+            Collections.sort(array);
+            return (double)array.get(array.size()/2);
+        }
+        if(array.get(0) instanceof Integer){
+            Collections.sort(array);
+            return (double)(int)array.get(array.size()/2);
+        }else{
+            System.err.println("the column is a column of strings");
+            return null;
+        }
+
+    }
+
+
 }
