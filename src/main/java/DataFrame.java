@@ -277,7 +277,7 @@ public class DataFrame {
      *
      * @return the dataframe
      */
-    public String Print_all() {
+    public String printAll() {
         return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
     }
 
@@ -286,14 +286,14 @@ public class DataFrame {
      * @param lastLine the last line printed
      * @return the dataframe
      */
-    public String Print_until(int lastLine) {
+    public String printUntil(int lastLine) {
         if(lastLine > this.getbiggestArraysize()) {
             return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
         }
         return printPart(0, lastLine, 0, data.keySet().size());
     }
 
-    public String Print_from(int firstline) {
+    public String printFrom(int firstline) {
         if(firstline < 0) {
             return printPart(0, this.getbiggestArraysize(), 0, data.keySet().size());
         }
@@ -398,7 +398,7 @@ public class DataFrame {
      * @param label
      * @return la mediane d'une colonne
      */
-    public Double medianeColumn (String label){
+    public Double medianColumn(String label){
         Double ret = 0.0;
 
         if(data.get(label) == null){
