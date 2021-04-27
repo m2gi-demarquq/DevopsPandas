@@ -29,9 +29,9 @@ public class TestAffichage {
             String expected_from = "jean,jean,45,0.002,ola\n"+
                     "merlu,merou,12,10.52\n";
 
-            Assert.assertEquals(expected, dfcsv.Print_all());
-            Assert.assertEquals(expected_until, dfcsv.Print_until(1));
-            Assert.assertEquals(expected_from, dfcsv.Print_from(1));
+            Assert.assertEquals(expected, dfcsv.printAll());
+            Assert.assertEquals(expected_until, dfcsv.printUntil(1));
+            Assert.assertEquals(expected_from, dfcsv.printFrom(1));
 
             String expected_col = "prenom,age,moneyyss,test,test2\n" +
                     "jean,45,0.002,ola\n"+

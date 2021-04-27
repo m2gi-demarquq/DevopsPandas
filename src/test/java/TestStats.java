@@ -20,15 +20,15 @@ public class TestStats {
         Assert.assertEquals(dfcsv.average("annee"), 2005, 0.0);
         Assert.assertEquals(dfcsv.average("marge"), 0.2, 0.0000001);
 
-        Assert.assertEquals(dfcsv.medianeColumn("annee"), 2005, 0.0);
-        Assert.assertEquals(dfcsv.medianeColumn("marge"), 0.2, 0.0000001);
+        Assert.assertEquals(dfcsv.medianColumn("annee"), 2005, 0.0);
+        Assert.assertEquals(dfcsv.medianColumn("marge"), 0.2, 0.0000001);
 
-        Assert.assertNull(dfcsv.medianeColumn("polà"));
+        Assert.assertNull(dfcsv.medianColumn("polà"));
         Assert.assertNull(dfcsv.minColumn("polà"));
         Assert.assertNull(dfcsv.maxColumn("polà"));
         Assert.assertNull(dfcsv.average("polà"));
 
-        Assert.assertNull(dfcsv.medianeColumn("test"));
+        Assert.assertNull(dfcsv.medianColumn("test"));
         Assert.assertNull(dfcsv.minColumn("test"));
         Assert.assertNull(dfcsv.maxColumn("test"));
         Assert.assertNull(dfcsv.average("test"));
